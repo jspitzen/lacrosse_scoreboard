@@ -43,31 +43,37 @@
             'visiting_score': {{ game.home_score }}
         }
     </script>
+    <style>
+        .home-team {
+            color: {{ game.home_team.color | default_if_none:'black' }};
+        }
+        .home-team-bg {
+            background-color: {{ game.home_team.color | default_if_none:'black' }};
+        }
+
+
+        .visiting-team {
+            color: {{ game.visiting_team.color | default_if_none:'black' }};
+        }
+        .visiting-team-bg {
+            background-color: {{ game.visiting_team.color | default_if_none:'black' }};
+        }
+    </style>
 {% endblock %}
 {% block content %}
     <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-3">
-            <h1>{{ object.home_team }}</h1>
-            <button type="button" class="btn btn-default" value="{{ game.home_team_id }}" id="btn_home_goal" onclick="goal(this)">Goal</button>
+        <div class="col-md-3 col-md-offset-2 col-sm-6">
+            <h1 class="home-team">{{ object.home_team }}</h1>
         </div>
-
-        <div class="col-md-2"></div>
-
-        <div class="col-md-3">
-            <h1>{{ object.visiting_team }}</h1>
-            <button type="button" class="btn btn-default" value="{{ game.visiting_team_id }}" id="btn_away_goal" onclick="goal(this)">Goal</button>
+        <div class="col-md-3 col-md-offset-2 col-sm-6 text-right">
+            <h1 class="visiting-team">{{ object.visiting_team }}</h1>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-md-offset-2 col-sm-6">
             <h2 id="home_score">{{ game.home_score }}</h2>
         </div>
-
-        <div class="col-md-2"></div>
-
-        <div class="col-md-3">
+        <div class="col-md-3 col-md-offset-2 col-sm-6 text-right">
             <h2 id="visiting_score">{{ game.visiting_score }}</h2>
         </div>
     </div>
