@@ -16,6 +16,9 @@ class Game(models.Model):
     def home_score(self):
         return self.goal_set.filter(team=self.home_team).count()
 
+    def visiting_score(self):
+        return self.goal_set.filter(team=self.visiting_team).count()
+
     def __str__(self):
         return "{} - {}".format(self.home_team, self.visiting_team)
 
