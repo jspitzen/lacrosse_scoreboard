@@ -16,4 +16,25 @@ class GameUnitTests(TestCase):
         self.assertEqual(0, self.game.home_score())
 
     def test_away_score_zero(self):
+        self.assertEqual(0, self.game.visiting_score())
+
+    def test_home_score_one(self):
+        Goal.objects.create(game=self.game,
+                            game_time_minutes=1,
+                            game_time_seconds=1,
+                            team=self.home_team,
+                            player_number=26
+                            )
+        self.assertEqual(1, self.game.home_score())
+        self.assertEqual(0, self.game.visiting_score())
+
+    def test_away_score_one(self):
+        Goal.objects.create(game=self.game,
+                            game_time_minutes=1,
+                            game_time_seconds=1,
+                            team=self.visiting_team,
+                            player_number=26
+                            )
+        self.assertEqual(0, self.game.home_score())
         self.assertEqual(1, self.game.visiting_score())
+
