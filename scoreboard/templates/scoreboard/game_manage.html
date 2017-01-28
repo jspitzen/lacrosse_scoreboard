@@ -26,7 +26,8 @@
             var team_id = parseInt(btn.value);
             socket.send(JSON.stringify({
                 'event_type': 'g',
-                'team_id': team_id
+                'team_id': team_id,
+                'game_id': game_info.game_id
             }));
         }
 
@@ -37,9 +38,9 @@
         var game_info = {
             'game_id': {{ game.id }},
             'home_id': {{ game.home_team_id }},
-            'home_score': 0,
+            'home_score': {{ game.home_score }},
             'visiting_id': {{ game.visiting_team_id }},
-            'visiting_score': 0
+            'visiting_score': {{ game.home_score }}
         }
     </script>
 {% endblock %}
@@ -61,13 +62,13 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-3">
-            <h2 id="home_score">0</h2>
+            <h2 id="home_score">{{ game.home_score }}</h2>
         </div>
 
         <div class="col-md-2"></div>
 
         <div class="col-md-3">
-            <h2 id="visiting_score">0</h2>
+            <h2 id="visiting_score">{{ game.visiting_score }}</h2>
         </div>
     </div>
 

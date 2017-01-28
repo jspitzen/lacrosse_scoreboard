@@ -45,12 +45,18 @@ class Event(models.Model):
         abstract = True
         ordering = ['game_time_minutes', 'game_time_seconds', ]
 
+    def save(self, *args, **kwargs):
+        self.type = self._event_type
+        return super(Event, self).save(*args, **kwargs)
+
 
 class Goal(Event):
+    _event_type = 'G'
     assist = models.PositiveIntegerField(null=True, blank=True)
 
 
 class Penalty(Event):
+    _event_type = 'P'
     PENALTY_TYPE_T30 = 'T30'
     PENALTY_TYPE_P1 = 'P1'
     PENALTY_TYPE_P2 = 'P2'
