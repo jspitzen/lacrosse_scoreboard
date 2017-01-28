@@ -24,15 +24,22 @@ class Game(models.Model):
 
 
 class Event(models.Model):
+    EVENT_TYPE_GOAL = 'G'
+    EVENT_TYPE_PENALTY = 'P'
+    EVENT_TYPE_TIMEOUT = 'T'
+
+    EVENT_TYPE_CHOICES = [
+        (EVENT_TYPE_GOAL, 'Goal'),
+        (EVENT_TYPE_PENALTY, 'Penalty'),
+        (EVENT_TYPE_TIMEOUT, 'Timeout'),
+    ]
+
     game_time_minutes = models.PositiveIntegerField()
     game_time_seconds = models.PositiveIntegerField()
     game = models.ForeignKey(Game)
     team = models.ForeignKey(Team)
     player_number = models.PositiveIntegerField()
-
-    EVENT_TYPE_GOAL = 'G'
-    EVENT_TYPE_PENALTY = 'P'
-    EVENT_TYPE_TIMEOUT = 'T'
+    type = models.CharField(choices=EVENT_TYPE_CHOICES, max_length=1)
 
     class Meta:
         abstract = True
