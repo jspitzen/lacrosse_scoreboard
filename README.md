@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jspitzen/lacrosse_scoreboard.svg?branch=master)](https://travis-ci.org/jspitzen/lacrosse_scoreboard)
 [![Coverage Status](https://coveralls.io/repos/github/jspitzen/lacrosse_scoreboard/badge.svg?branch=master)](https://coveralls.io/github/jspitzen/lacrosse_scoreboard?branch=master)
+[![Code Health](https://landscape.io/github/jspitzen/lacrosse_scoreboard/master/landscape.svg?style=flat)](https://landscape.io/github/jspitzen/lacrosse_scoreboard/master)
 
 #### Short description
 
