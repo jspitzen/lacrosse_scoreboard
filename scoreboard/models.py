@@ -14,7 +14,7 @@ class Game(models.Model):
     time = models.DateTimeField()
 
     def home_score(self):
-        return self.event_set(team=self.home_team).count()
+        return self.goal_set.filter(team=self.home_team).count()
 
     def __str__(self):
         return "{} - {}".format(self.home_team, self.visiting_team)
