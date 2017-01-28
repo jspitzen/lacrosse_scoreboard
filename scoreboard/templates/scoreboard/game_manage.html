@@ -1,8 +1,75 @@
 {% extends 'scoreboard/game_detail.html' %}
+{% block head %}
+    {{ block.super }}
+    <script>
+            function send_event() {
+                var form_data = $('#game_manage_form').serializeArray();
+                var data = {
+                    'game_id': {{ game.id }}
+                };
+                $.each(form_data, function(i, e) {
+                    data[e.name] = e.value;
+                });
+                socket.send(JSON.stringify(data));
+                return false;
+            }
+    </script>
+{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-md-3 col-md-offset-2">
-            <h3>Control panel</h3>
+            <h1>Game management</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-2">
+            <form class="form-horizontal" id="game_manage_form" onsubmit="return send_event()">
+                <div class="form-group">
+                    <label for="time_min" class="col-sm-2 control-label">Game time</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="time_min" min=0 max=200 name='min' placeholder="Minutes">
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="time_sec" min=0 max=59 name='sec' placeholder="Seconds">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="time_min" class="col-sm-2 control-label">Player no.</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="player_no" min=0 max=99 name='player' placeholder="Player #">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="time_min" class="col-sm-2 control-label">Team</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" name="team">
+                            <option value="{{ game.home_team_id }}">{{ game.home_team }}</option>
+                            <option value="{{ game.visiting_team_id }}">{{ game.visiting_team }}</option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="time_min" class="col-sm-2 control-label">Event</label>
+                    <div class="col-sm-10">
+                        <label class="radio-inline">
+                            <input type="radio" name="event_type" id="event_type_goal" value="g">Goal
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="event_type" id="event_type_penalty" value="option2">Penalty
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="event_type" id="event_type_timeout" value="option3">Timeout
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-default" type="button" onclick="send_event()">Submit</button>
+                    </div>
+                </div>
+            </form>
+
         </div>
     </div>
     {{ block.super }}

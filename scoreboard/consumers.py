@@ -10,10 +10,10 @@ def ws_game_event(message):
     game = Game.objects.get(pk=event['game_id'])
     if event['event_type'] == 'g':
         Goal.objects.create(game=game,
-                            team_id=event['team_id'],
-                            game_time_minutes=12,
-                            game_time_seconds=12,
-                            player_number=12)
+                            team_id=event['team'],
+                            game_time_minutes=event['min'],
+                            game_time_seconds=event['sec'],
+                            player_number=event['player'])
 
     Group("game").send({
         "text": message.content['text']

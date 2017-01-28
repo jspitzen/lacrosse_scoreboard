@@ -8,7 +8,7 @@
         socket = new WebSocket("ws://" + window.location.host + "/game/1/");
         socket.onmessage = function(e) {
             var event = JSON.parse(e.data);
-            var team_id = parseInt(event.team_id);
+            var team_id = parseInt(event.team);
             if (event.event_type == 'g') {
                 // Goal scored
                 if (team_id == game_info.home_id) {
@@ -22,15 +22,6 @@
         // Call onopen directly if socket is already open
         if (socket.readyState == WebSocket.OPEN) socket.onopen();
 
-        function goal(btn) {
-            var team_id = parseInt(btn.value);
-            socket.send(JSON.stringify({
-                'event_type': 'g',
-                'team_id': team_id,
-                'game_id': game_info.game_id
-            }));
-        }
-
         function update_scores() {
             $('#home_score').text(game_info.home_score);
             $('#visiting_score').html(game_info.visiting_score);
@@ -40,7 +31,7 @@
             'home_id': {{ game.home_team_id }},
             'home_score': {{ game.home_score }},
             'visiting_id': {{ game.visiting_team_id }},
-            'visiting_score': {{ game.home_score }}
+            'visiting_score': {{ game.visiting_score }}
         }
     </script>
     <style>
