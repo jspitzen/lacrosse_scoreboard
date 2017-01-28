@@ -14,7 +14,7 @@ class Game(models.Model):
     time = models.DateTimeField()
 
     def home_score(self):
-        return self.goal_set(team=self.home_team).count()
+        return self.event_set(team=self.home_team).count()
 
     def __str__(self):
         return "{} - {}".format(self.home_team, self.visiting_team)
@@ -33,13 +33,14 @@ class Event(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ['game_time_minutes', 'game_time_seconds', ]
 
 
-class Goal(models.Model):
+class Goal(Event):
     assist = models.PositiveIntegerField(null=True, blank=True)
 
 
-class Penalty(models.Model):
+class Penalty(Event):
     PENALTY_TYPE_T30 = 'T30'
     PENALTY_TYPE_P1 = 'P1'
     PENALTY_TYPE_P2 = 'P2'
