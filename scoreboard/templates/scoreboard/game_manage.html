@@ -1,81 +1,9 @@
-{% extends 'base.html' %}
-{% load bootstrap3 %}
-{% block head %}
-    {{ block.super }}
-        <script>
-        // Note that the path doesn't matter for routing; any WebSocket
-        // connection gets bumped over to WebSocket consumers
-        socket = new WebSocket("ws://" + window.location.host + "/game/1/");
-        socket.onmessage = function(e) {
-            var event = JSON.parse(e.data);
-            var team_id = parseInt(event.team_id);
-            if (event.event_type == 'g') {
-                // Goal scored
-                if (team_id == game_info.home_id) {
-                    game_info.home_score++;
-                } else if(team_id == game_info.visiting_id) {
-                    game_info.visiting_score++;
-                }
-            }
-            update_scores();
-        };
-        // Call onopen directly if socket is already open
-        if (socket.readyState == WebSocket.OPEN) socket.onopen();
-
-        function goal(btn) {
-            var team_id = parseInt(btn.value);
-            socket.send(JSON.stringify({
-                'event_type': 'g',
-                'team_id': team_id,
-                'game_id': game_info.game_id
-            }));
-        }
-
-        function update_scores() {
-            $('#home_score').text(game_info.home_score);
-            $('#visiting_score').html(game_info.visiting_score);
-        }
-        var game_info = {
-            'game_id': {{ game.id }},
-            'home_id': {{ game.home_team_id }},
-            'home_score': {{ game.home_score }},
-            'visiting_id': {{ game.visiting_team_id }},
-            'visiting_score': {{ game.home_score }}
-        }
-    </script>
-    <style>
-        .home-team {
-            color: {{ game.home_team.color | default_if_none:'black' }};
-        }
-        .home-team-bg {
-            background-color: {{ game.home_team.color | default_if_none:'black' }};
-        }
-
-
-        .visiting-team {
-            color: {{ game.visiting_team.color | default_if_none:'black' }};
-        }
-        .visiting-team-bg {
-            background-color: {{ game.visiting_team.color | default_if_none:'black' }};
-        }
-    </style>
-{% endblock %}
+{% extends 'scoreboard/game_detail.html' %}
 {% block content %}
     <div class="row">
-        <div class="col-md-3 col-md-offset-2 col-sm-6">
-            <h1 class="home-team">{{ object.home_team }}</h1>
-        </div>
-        <div class="col-md-3 col-md-offset-2 col-sm-6 text-right">
-            <h1 class="visiting-team">{{ object.visiting_team }}</h1>
+        <div class="col-md-3 col-md-offset-2">
+            <h3>Control panel</h3>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-3 col-md-offset-2 col-sm-6">
-            <h2 id="home_score">{{ game.home_score }}</h2>
-        </div>
-        <div class="col-md-3 col-md-offset-2 col-sm-6 text-right">
-            <h2 id="visiting_score">{{ game.visiting_score }}</h2>
-        </div>
-    </div>
-
+    {{ block.super }}
 {% endblock %}
