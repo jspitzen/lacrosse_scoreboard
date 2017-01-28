@@ -13,6 +13,9 @@ class Game(models.Model):
     visiting_team = models.ForeignKey(Team, related_name='+')
     time = models.DateTimeField()
 
+    def home_score(self):
+        return self.goal_set(team=self.home_team).count()
+
     def __str__(self):
         return "{} - {}".format(self.home_team, self.visiting_team)
 
