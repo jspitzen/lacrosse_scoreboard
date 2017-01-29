@@ -26,6 +26,9 @@ class Game(models.Model):
     def __str__(self):
         return "{} - {}".format(self.home_team, self.visiting_team)
 
+    def events(self):
+        return Event.objects.filter(game=self)
+
 
 class Event(models.Model):
     EVENT_TYPE_GOAL = 'G'
@@ -46,7 +49,6 @@ class Event(models.Model):
     type = models.CharField(choices=EVENT_TYPE_CHOICES, max_length=1)
 
     class Meta:
-        abstract = True
         ordering = ['game_time_minutes', 'game_time_seconds', ]
 
     def save(self, *args, **kwargs):
@@ -76,3 +78,7 @@ class Penalty(Event):
     ]
 
     penalty_type = models.CharField(choices=PENALTY_CHOICES, max_length=3)
+
+
+class TimeOut(Event):
+    _event_type = 'T'
