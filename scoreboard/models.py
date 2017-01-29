@@ -5,6 +5,7 @@ from colorful.fields import RGBColorField
 
 class Team(models.Model):
     name = models.CharField(max_length=128)
+    abbreviation = models.CharField(max_length=3)
     color = RGBColorField(null=True, blank=True)
 
     def __str__(self):
